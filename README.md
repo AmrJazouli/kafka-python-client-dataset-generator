@@ -7,7 +7,7 @@ The client consumes the data from kafka and generates a csv file. It also adds a
 
 ##  Prerequisites:
 
-   OpenHardwareMonitor software must be running before launching the batch files of producing and consuming.
+   OpenHardwareMonitor software must be running before launching the *batchProducerConsumerKafka.bat* batch file.
    https://openhardwaremonitor.org/
 
    A subscription for a kafka topic in confluent cloud is necessary as well. 

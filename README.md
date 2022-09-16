@@ -22,7 +22,7 @@ The client consumes the data from kafka and generates a csv file. It also adds a
           
           >cd C:\Users\...\kafka_python_client_dataset_generator
   
-  2. Activate your virtual environement:
+  2. Activate your virtual environment:
   
           C:\Users\...\kafka_python_client_dataset_generator>conda activate venv
          

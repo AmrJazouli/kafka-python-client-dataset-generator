@@ -1,11 +1,11 @@
 # Kafka_Dataset_Generator
 
-  A python client that will produce hardware data such as clock, temperature, Load and Power of the CPU and GPU into a kafka topic.
+##  A python client that will produce hardware data such as clock, temperature, Load and Power of the CPU and GPU into a kafka topic.
   
-  The client consumes the data from kafka and generates a csv file. It also adds a target column called 'No Technical Intervention Required' in the generated dataset which can be used for a machine learning purpose.
+##  The client consumes the data from kafka and generates a csv file. It also adds a target column called 'No Technical Intervention Required' in the generated dataset which can be used for a machine learning purpose.
 
 
-  Prerequisites:
+##  Prerequisites:
 
    OpenHardwareMonitor software must be running before launching the batch files of producing and consuming.
    https://openhardwaremonitor.org/
@@ -14,7 +14,7 @@
    https://www.confluent.io/confluent-cloud/
 
 
-  The following batch can take up to 10 minutes to complete.
+##  The following batch can take up to 10 minutes to complete.
 
   In the command line:
 

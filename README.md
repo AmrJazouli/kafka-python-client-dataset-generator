@@ -19,9 +19,15 @@
   In the command line:
 
   1. Go to the kafka_python_client_dataset_generator project folder:
-     cd C:\Users\...\kafka_python_client_dataset_generator
+          
+          cd C:\Users\...\kafka_python_client_dataset_generator
+  
   2. Activate your virtual environement:
-     conda activate venv
+  
+          conda activate venv
+  
   3. Run the batchProducerConsumerKafka batch file as shown following: 
-     C:\Users\...\kafka_python_client_dataset_generator>batchProducerConsumerKafka.bat
+    
+          C:\Users\...\kafka_python_client_dataset_generator>batchProducerConsumerKafka.bat
+  
   4. When the csv file is generated, press CTRL+C to stop the consumer. Then, press 'Y' to terminate the batch.

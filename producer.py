@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 
 import sys
 import os
@@ -34,26 +33,35 @@ if __name__ == '__main__':
             print("Produced event to topic {topic}: key = {key:12} value = {value:12}".format(
                 topic=msg.topic(), key=msg.key().decode('utf-8'), value=msg.value().decode('utf-8')))
 
-    # Produce data by selecting random values from these lists.
-    #topic = "topic_0"
-   
+    
+    # Produce data by selecting the following relevant sensors:
+    # Clock CPU Core #1, Temperature CPU Package, Load CPU Total, Power CPU Package, Temperature GPU Core and Load GPU Core  
+
+    # Creation of a Measures object
     m = Measures()
+
     myList = m.temperature_info
 
+    # Select the Kafka topic in confluenct cloud we will be producing records into
     topic = "topic_0"
-    data_fields = ['ClockCPUCoreOne', 'TemperatureCPUPackage', 'LoadCPUTotal', 'PowerCPUPackage', 'TemperatureGPUCore', 'LoadGPUCore']
-    data_values = [myList[16].Value, myList[18].Value, myList[9].Value, myList[8].Value, myList[12].Value,myList[35].Value]
+
+    # Initialization of a list of sensor types and their names according to the list 'myList'
+    data_fields = ['Clock CPU Core #1', 'Temperature CPU Package', 'Load CPU Total', 'Power CPU Package', 'Temperature GPU Core', 'Load GPU Core']
     
+    # A List Comprehension to create of a list of lists containing the sensor types, the names and the values
+    data_values = [[x.SensorType+" "+x.Name, x.Value] for x in myList if x.SensorType+" "+x.Name in data_fields]
 
+        
+    # A loop to produce records to the Kafka topic with the selected information of sensors and their values    
     count = 0
-    for _ in range(6):
+    for i in range(6):
 
-        user_id = data_fields[_]
-        product = str(data_values[_])
+        user_id = data_values[i][0]
+        product = str(data_values[i][1])
         producer.produce(topic, product, user_id, callback=delivery_callback)
         count += 1
+        
 
     # Block until the messages are sent.
     producer.poll(10000)
     producer.flush()
-

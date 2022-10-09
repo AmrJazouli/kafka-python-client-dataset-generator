@@ -49,8 +49,12 @@ if __name__ == '__main__':
     data_fields = ['Clock CPU Core #1', 'Temperature CPU Package', 'Load CPU Total', 'Power CPU Package', 'Temperature GPU Core', 'Load GPU Core']
     
     # A List Comprehension to create of a list of lists containing the sensor types, the names and the values
-    data_values = [[x.SensorType+" "+x.Name, x.Value] for x in myList if x.SensorType+" "+x.Name in data_fields]
+    #data_values = [[x.SensorType+" "+x.Name, x.Value] for x in myList if x.SensorType+" "+x.Name in data_fields]
+    data_values = [[x.SensorType+" "+x.Name, [x.Value, x.Max]] for x in myList if x.SensorType+" "+x.Name in data_fields]
 
+    #for m in myList:
+
+    #    print(m)
         
     # A loop to produce records to the Kafka topic with the selected information of sensors and their values    
     count = 0
@@ -58,6 +62,7 @@ if __name__ == '__main__':
 
         user_id = data_values[i][0]
         product = str(data_values[i][1])
+        #product = data_values[i][1]
         producer.produce(topic, product, user_id, callback=delivery_callback)
         count += 1
         

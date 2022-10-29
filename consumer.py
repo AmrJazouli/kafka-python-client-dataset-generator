@@ -1,5 +1,6 @@
 
 import sys
+import os
 import pandas as pd
 from sensors.measures import Measures
 from argparse import ArgumentParser, FileType
@@ -8,20 +9,24 @@ from confluent_kafka import Consumer, OFFSET_BEGINNING
 from uncertainties import ufloat
 import random
 import numpy as np
+from dotenv import load_dotenv
 
 if __name__ == '__main__':
+
     # Parse the command line.
     parser = ArgumentParser()
     parser.add_argument('config_file', type=FileType('r'))
     parser.add_argument('--reset', action='store_true')
     args = parser.parse_args()
+    
+    # Loads the environmental variables within the .env file
+    load_dotenv()
 
-    # Parse the configuration.
-    # See https://github.com/edenhill/librdkafka/blob/master/CONFIGURATION.md
-    config_parser = ConfigParser()
-    config_parser.read_file(args.config_file)
-    config = dict(config_parser['default'])
-    config.update(config_parser['consumer'])
+    # Initializes a configuration dictionary
+    config =    {'bootstrap.servers': os.environ['BOOTSTRAP.SERVERS'], 'security.protocol': os.environ['SECURITY.PROTOCOL'], 
+                'sasl.mechanisms': os.environ['SASL.MECHANISMS'], 'sasl.username': os.environ['KAFKA_CLUSTER_KEY'], 
+                'sasl.password': os.environ['KAFKA_CLUSTER_SECRET'], 'group.id': os.environ['GROUP.ID'], 
+                'auto.offset.reset': os.environ['AUTO.OFFSET.RESET']}
 
     # Create Consumer instance
     consumer = Consumer(config)
@@ -34,7 +39,7 @@ if __name__ == '__main__':
             consumer.assign(partitions)
 
     # Select the Kafka topic in confluenct cloud we will be consuming records from
-    topic = "topic_0"
+    topic = os.environ['TOPIC_NAME']
     consumer.subscribe([topic], on_assign=reset_offset)
 
     # Poll for new messages from Kafka and print them.
@@ -110,11 +115,12 @@ if __name__ == '__main__':
                     Nb_iter = int(N/sizeDict)    
 
                     
-                    
+                    '''
                     print(sizeDict)
                     print()
                     print(Nb_iter)
                     print()
+                    '''
 
                     # Deviation values of the sensor types above
                     # They will be used for for generating random values within intervals
@@ -190,10 +196,7 @@ if __name__ == '__main__':
                     
                     # Adds the target value column 7 to the dataframe
                     df_Zeros_2.insert(6, "No Technical Intervention Required", list_of_zeros)
-
-                    
-                                   
-                    #print(df_Zeros_2)
+                                            
 
                     # Concatenation of the two previous dataframes: df_Ones and df_Zeros
                     df_final = pd.concat([df_Ones, df_Zeros_2], ignore_index=True)

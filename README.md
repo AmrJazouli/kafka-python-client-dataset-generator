@@ -13,6 +13,13 @@ The client consumes the data from kafka and generates a csv file. It also adds a
    A subscription for a kafka topic in confluent cloud is necessary as well. 
    https://www.confluent.io/confluent-cloud/
 
+   The following environmental variables in the .env file corresponding to the cluster and topic subscription must be specified:
+
+   BOOTSTRAP.SERVERS
+   KAFKA_CLUSTER_KEY
+   KAFKA_CLUSTER_SECRET
+   TOPIC_NAME
+
 
   The following batch can take up to 10 minutes to complete.
 

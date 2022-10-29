@@ -19,7 +19,7 @@ ECHO Consuming records from the kafka topic, this will generate a csv file conta
 ECHO.
 ECHO.
 
-python consumer.py getting_started.ini
+python consumer.py config_consumer.ini
 
 EXIT /B %ERRORLEVEL%
 
@@ -27,7 +27,7 @@ EXIT /B %ERRORLEVEL%
 ECHO.
 ECHO Push Number %~1
 ECHO.
-python producer.py getting_started.ini
+python producer.py
 EXIT /B 0
 
 

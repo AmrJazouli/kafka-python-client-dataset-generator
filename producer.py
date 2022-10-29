@@ -6,22 +6,21 @@ from random import choice
 from argparse import ArgumentParser, FileType
 from configparser import ConfigParser
 from confluent_kafka import Producer
-
+from dotenv import load_dotenv
 
 if __name__ == '__main__':
-    # Parse the command line.
-    parser = ArgumentParser()
-    parser.add_argument('config_file', type=FileType('r'))
-    args = parser.parse_args()
 
-    # Parse the configuration.
-    # See https://github.com/edenhill/librdkafka/blob/master/CONFIGURATION.md
-    config_parser = ConfigParser()
-    config_parser.read_file(args.config_file)
-    config = dict(config_parser['default'])
+    # Loads the environmental variables within the .env file
+    load_dotenv()
 
-    # Create Producer instance
-    producer = Producer(config)
+    # Initializes a configuration dictionary
+    config =    {'bootstrap.servers': os.environ['BOOTSTRAP.SERVERS'], 'security.protocol': os.environ['SECURITY.PROTOCOL'], 
+                'sasl.mechanisms': os.environ['SASL.MECHANISMS'], 'sasl.username': os.environ['KAFKA_CLUSTER_KEY'], 
+                'sasl.password': os.environ['KAFKA_CLUSTER_SECRET']}
+
+    
+    # Creates a Producer instance
+    producer = Producer(config)   
 
     # Optional per-message delivery callback (triggered by poll() or flush())
     # when a message has been successfully delivered or permanently
@@ -39,11 +38,10 @@ if __name__ == '__main__':
 
     # Creation of a Measures object
     m = Measures()
-
     myList = m.temperature_info
 
-    # Select the Kafka topic in confluenct cloud we will be producing records into
-    topic = "topic_0"
+    # Select the Kafka topic in confluenct cloud we will be producing records into  
+    topic = os.environ['TOPIC_NAME']
 
     # Initialization of a list of sensor types and their names according to the list 'myList'
     data_fields = ['Clock CPU Core #1', 'Temperature CPU Package', 'Load CPU Total', 'Power CPU Package', 'Temperature GPU Core', 'Load GPU Core']

@@ -16,8 +16,11 @@ The client consumes the data from kafka and generates a csv file. It also adds a
    The following environmental variables in the .env file corresponding to the cluster and topic subscription must be specified:
 
    BOOTSTRAP.SERVERS
+   
    KAFKA_CLUSTER_KEY
+   
    KAFKA_CLUSTER_SECRET
+   
    TOPIC_NAME
 
 
